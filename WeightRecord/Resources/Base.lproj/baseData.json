@@ -1,0 +1,23 @@
+[
+	{
+		"title" : "Arms",
+		"subCategories" : [
+			{
+				"title" : "Biceps",
+                "subCategories" : [],
+				"exercises" : [
+                    {"title" : "Dumbel Curls"},
+					{"title" : "Barbel Curls"}
+				]
+			},
+			{
+				"title" : "Triceps",
+                "subCategories" : [],
+				"exercises" : [
+                    {"title" : "Cable extensions"}
+				]
+			}
+		],
+        "exercises" : []
+	}
+]
