@@ -8,6 +8,10 @@
 
 import UIKit
 
+enum Section: Int{
+    case Categories, Exercises, Add
+}
+
 class ListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     var category: Category? = nil
@@ -34,15 +38,18 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if(section == 0) {
+        switch Section(rawValue: section)! {
+        case .Categories:
             return category?.subCategories.count ?? 0
+        case .Exercises:
+            return category?.exercises.count ?? 0
+        case .Add:
+            return 1
         }
-        
-        return category?.exercises.count ?? 0
     }
     
     func numberOfSections(in: UITableView) -> Int {
-        return 2
+        return 3
     }
     
     func exerciseTableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -72,10 +79,15 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if indexPath.section == 0 {
-            return categoryTableView(tableView, cellForRowAt:indexPath)
-        } else {
-            return exerciseTableView(tableView, cellForRowAt:indexPath)
+        switch Section(rawValue: indexPath.section)! {
+        case .Categories:
+                return categoryTableView(tableView, cellForRowAt:indexPath)
+        case .Exercises:
+                return exerciseTableView(tableView, cellForRowAt:indexPath)
+        case .Add:
+            let tableCell = UITableViewCell(style: .default, reuseIdentifier: nil)
+            tableCell.textLabel?.text = "+"
+            return tableCell
         }
     }
     
@@ -85,10 +97,31 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
             return
         }
         
-        if indexPath.section == 0 {
+        switch Section(rawValue: indexPath.section)! {
+        case .Categories:
             let nextVC = ListViewController()
             nextVC.category = category.subCategories[indexPath.row]
             self.navigationController?.pushViewController(nextVC, animated: true)
+        case .Exercises:
+            return
+        case .Add:
+            guard let category = self.category else {
+                return
+            }
+            let alert = UIAlertController(title: nil, message: "Add", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Category", style: .default, handler: { _ in
+                let newCategory = Category()
+                newCategory.title = "New Cat"
+                category.subCategories.append(newCategory)
+                tableView.reloadData()
+            }))
+            alert.addAction(UIAlertAction(title: "Exercise", style: .default, handler: { _ in
+                let newExercise = Exercise()
+                newExercise.title = "New Ex"
+                category.exercises.append(newExercise)
+                tableView.reloadData()
+            }))
+            self.present(alert, animated: true, completion: nil)
         }
     }
 }
