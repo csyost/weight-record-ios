@@ -9,7 +9,10 @@
 import Foundation
 
 class Category: Decodable {
-    public var title: String = ""
-    public var subCategories: [Category] = []
-    public var exercises: [Exercise] = []
+    
+    static var topLevelCategory = Category()
+    
+    var title: String = ""
+    var subCategories: [Category] = []
+    var exercises: [Exercise] = []
 }

@@ -9,22 +9,22 @@
 import Foundation
 import UIKit
 
-class ExerciseTableViewCell: UITableViewCell {
-    var exercise: Exercise
+class CategoryTableViewCell: UITableViewCell {
+    var category: Category
     
-    init(_ exercise: Exercise) {
-        self.exercise = exercise
+    init(_ category: Category) {
+        self.category = category
         super.init(style: .default, reuseIdentifier: nil)
         
         refresh()
     }
     
     required init?(coder decoder: NSCoder) {
-        self.exercise = Exercise()
+        self.category = Category()
         super.init(coder: decoder)
     }
     
     private func refresh() {
-        self.textLabel?.text = exercise.title
+        self.textLabel?.text = category.title
     }
 }

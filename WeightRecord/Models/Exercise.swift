@@ -9,6 +9,6 @@
 import Foundation
 
 class Exercise: Decodable {
-    public var title: String = ""
-    public var imagePath: String?
+    var title: String = ""
+    var imagePath: String?
 }

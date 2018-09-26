@@ -21,14 +21,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         {
             do {
                 let jsonData = try Data(contentsOf: URL(fileURLWithPath: path))
-                let jsonResult: [Category] = try JSONDecoder().decode([Category].self, from: jsonData)
-                
+                Category.topLevelCategory = try JSONDecoder().decode(Category.self, from: jsonData)
                 
                 self.window = UIWindow(frame: UIScreen.main.bounds)
                 
                 let initialViewController = ListViewController()
+                initialViewController.category = Category.topLevelCategory
                 
-                self.window?.rootViewController = initialViewController
+                let navController = UINavigationController(rootViewController: initialViewController)
+                
+                self.window?.rootViewController = navController
                 self.window?.makeKeyAndVisible()
                 
                 
